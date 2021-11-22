@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import pickBy from 'lodash/pickBy';
-import { Form, Space, Input, Button, message, Spin } from 'antd';
+import { Form, Input, Button, message, Spin } from 'antd';
 import ImageUpload from '@/components/ImageUpload';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,6 @@ function UpdateCast({
 
   const onFinish = async (formData) => {
     console.log('formData', formData);
-    return;
     const updateParams = pickBy(formData, (e) => e !== undefined);
     const isNew = !updateParams.id;
     const keyLength = Object.keys(updateParams).length;
@@ -65,11 +64,11 @@ function UpdateCast({
         autoComplete="off"
       >
         <Form.Item label="coverpage" name="coverInfo">
-          <ImageUpload />
+          <ImageUpload accept=".jpg,.jpeg,.png,.bmp,.webp" />
         </Form.Item>
-        {/* <Form.Item label="Video" name="videoInfo">
-          <ImageUpload />
-        </Form.Item> */}
+        <Form.Item label="Video" name="videoInfo">
+          <ImageUpload accept=".mp4" />
+        </Form.Item>
 
         <Form.Item label="Name of collection" name="name">
           <Input />

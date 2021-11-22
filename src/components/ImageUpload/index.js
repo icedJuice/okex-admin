@@ -3,16 +3,10 @@ import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { IMAGE_CDN_PATH } from '@/constants';
 
-const getFileInfo = (url) => {
-  const [_u, name, type] = url?.match(/\/(.[^\/]+)\.(\w+)$/) || [];
-  return { name, type };
-};
-
 const revertFileListFromValue = (value) => {
-  // console.log();
-  // if (!value || !value.id) {
-  //   return [];
-  // }
+  if (!value || !value.id) {
+    return [];
+  }
   return [
     {
       name: value.url,
@@ -33,13 +27,28 @@ const uploadprops = {
   },
 };
 
-export default function ({ value, onChange }) {
-  const handleChange = (info, rr) => {
+export default function ({ value, onChange, ...props }) {
+  const [fileList, setFlieList] = useState(revertFileListFromValue(value));
+
+  useEffect(() => {
+    setFlieList(revertFileListFromValue(value));
+  }, [value]);
+
+  const handleChange = (info) => {
     if (info.fileList.length === 0) {
       onChange({ id: '', url: '' });
       return;
     }
     if (info.file.status == 'uploading') {
+      setFlieList([
+        {
+          name: info.file.name,
+          percent: 50,
+          status: 'uploading',
+          type: '',
+          uid: info.file.uid,
+        },
+      ]);
     }
     if (info.file.status == 'done') {
       const res = info.file.response;
@@ -52,14 +61,9 @@ export default function ({ value, onChange }) {
       message.error('上传失败');
     }
   };
-  console.log('value', value);
   return (
     <>
-      <Upload
-        defaultFileList={value ? revertFileListFromValue(value) : []}
-        {...uploadprops}
-        onChange={handleChange}
-      >
+      <Upload fileList={fileList} {...uploadprops} {...props} onChange={handleChange}>
         <Button icon={<UploadOutlined />}>点击上传</Button>
       </Upload>
     </>

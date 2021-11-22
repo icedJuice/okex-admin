@@ -1,4 +1,11 @@
-import { getCastList, getCastById } from '@/services';
+import {
+  getCastList,
+  getCastById,
+  createCast,
+  UpdateCast,
+  setCastCover,
+  setCastVideo,
+} from '@/services';
 import pickBy from 'lodash/pickBy';
 const initParams = {
   pageSize: 20,
@@ -88,8 +95,44 @@ const CastModel = {
       return res;
     },
 
-    *createOrUpdateToken({ payload }, { call }) {
-      const res = yield call('');
+    *createOrUpdateToken({ payload }, { call, select }) {
+      const editingToken = yield select((state) => state.cast.editingToken || {});
+      const isUpdate = Boolean(payload.id);
+      const {
+        name = '',
+        description = '',
+        author = '',
+        collectionName = '',
+        edition = '',
+        coverInfo,
+        videoInfo,
+      } = payload;
+
+      const params = {
+        name,
+        description,
+        author,
+        collectionName,
+        edition,
+      };
+
+      const res = yield call(isUpdate ? UpdateCast : createCast, params);
+
+      // const currentId = editingToken.id || res.id;
+      const currentId = editingToken.id;
+
+      if (isUpdate) {
+        // 如果封面有更新，调用接口更新
+        if (coverInfo.id !== editingToken.coverId) {
+          yield call(setCastCover, { id: currentId, coverId: coverInfo.id });
+        }
+        // 如果视频有变更， 调用接口更新
+        if (videoInfo.id !== editingToken.videoId) {
+          yield call(setCastVideo, { id: currentId, coverId: videoInfo.id });
+        }
+      }
+
+      return {};
     },
   },
 };
