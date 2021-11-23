@@ -17,8 +17,8 @@ export async function getCastList(params) {
       },
     });
     return {
-      list: result,
-      total: 40,
+      list: result?.data || [],
+      total: result?.meta?.total,
     };
   } catch (error) {
     return {

@@ -39,6 +39,11 @@ function TableList({ data, loading, onPageChange }) {
       dataIndex: 'receivedAddress',
     },
     {
+      title: 'rareLevel',
+      key: 'rareLevel',
+      dataIndex: 'rareLevel',
+    },
+    {
       title: 'tokenId',
       key: 'tokenId',
       dataIndex: 'tokenId',

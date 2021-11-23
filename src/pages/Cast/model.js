@@ -77,7 +77,8 @@ const CastModel = {
     },
 
     *getTokenById({ payload }, { call, put }) {
-      const res = yield call(getCastById, payload);
+      const response = yield call(getCastById, payload);
+      const res = response.data;
       res.coverInfo = {
         id: res.coverId,
         url: res.coverUrl,
@@ -104,6 +105,8 @@ const CastModel = {
         author = '',
         collectionName = '',
         edition = '',
+        rareLevel = '',
+        tokenId = '',
         coverInfo,
         videoInfo,
       } = payload;
@@ -114,12 +117,18 @@ const CastModel = {
         author,
         collectionName,
         edition,
+        rareLevel,
+        tokenId,
       };
 
-      const res = yield call(isUpdate ? UpdateCast : createCast, params);
+      if (!isUpdate) {
+        params.coverId = coverInfo?.id || '';
+        params.videoId = videoInfo?.id || '';
+      }
 
-      // const currentId = editingToken.id || res.id;
-      const currentId = editingToken.id;
+      const response = yield call(isUpdate ? UpdateCast : createCast, params);
+      const res = response.data;
+      const currentId = editingToken.id || res?.id;
 
       if (isUpdate) {
         // 如果封面有更新，调用接口更新

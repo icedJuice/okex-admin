@@ -80,7 +80,7 @@ const Login = () => {
         >
           <Tabs activeKey={type} onChange={setType}>
             <Tabs.TabPane key="account" tab={'账户密码登录'} />
-            <Tabs.TabPane key="mobile" tab={'手机号登录'} />
+            {/* <Tabs.TabPane key="mobile" tab={'手机号登录'} /> */}
           </Tabs>
 
           {status === 'error' && loginType === 'account' && (
@@ -94,7 +94,7 @@ const Login = () => {
                   size: 'large',
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'用户名: admin or user'}
+                placeholder={'用户名'}
                 rules={[
                   {
                     required: true,
@@ -108,7 +108,7 @@ const Login = () => {
                   size: 'large',
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'密码'}
                 rules={[
                   {
                     required: true,

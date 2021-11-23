@@ -89,7 +89,12 @@ function UpdateCast({
         <Form.Item label="Number of Editions" name="edition">
           <Input />
         </Form.Item>
-
+        <Form.Item label="rareLevel" name="rareLevel">
+          <Input />
+        </Form.Item>
+        <Form.Item label="tokenId" name="tokenId">
+          <Input />
+        </Form.Item>
         <Form.Item label="id" name="id" hidden>
           <Input />
         </Form.Item>
