@@ -27,6 +27,7 @@ const uploadprops = {
   maxCount: 1,
   headers: {
     authorization: 'authorization-text',
+    'Access-Control-Allow-Origin': '*',
   },
 };
 
