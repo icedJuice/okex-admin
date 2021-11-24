@@ -62,6 +62,15 @@ export default function ({ value, onChange, ...props }) {
     }
     if (info.file.status == 'error') {
       message.error('上传失败');
+      setFlieList([
+        {
+          name: info.file.name,
+          percent: 100,
+          status: 'error',
+          type: '',
+          uid: info.file.uid,
+        },
+      ]);
     }
   };
   return (
