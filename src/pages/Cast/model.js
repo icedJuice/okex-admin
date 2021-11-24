@@ -96,7 +96,7 @@ const CastModel = {
       return res;
     },
 
-    *createOrUpdateToken({ payload }, { call, select }) {
+    *createOrUpdateToken({ payload }, { call, select, put }) {
       try {
         const editingToken = yield select((state) => state.cast.editingToken || {});
         const isUpdate = Boolean(payload.id);
