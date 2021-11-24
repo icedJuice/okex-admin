@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Upload, message, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { IMAGE_CDN_PATH } from '@/constants';
+import { getUserToken } from '@/utils/auth';
 
 const revertFileListFromValue = (value) => {
   if (!value || !value.id) {
@@ -18,9 +19,11 @@ const revertFileListFromValue = (value) => {
   ];
 };
 
+const token = getUserToken();
+
 const uploadprops = {
   name: 'file',
-  action: '/upload?token=111',
+  action: 'https://file.rarelab.space/upload?token=' + token,
   maxCount: 1,
   headers: {
     authorization: 'authorization-text',
