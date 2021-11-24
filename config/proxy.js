@@ -15,13 +15,6 @@ export default {
         '^': '',
       },
     },
-    // '/upload': {
-    //   target: 'https://file.rarelab.space',
-    //   changeOrigin: true,
-    //   pathRewrite: {
-    //     '^': '',
-    //   },
-    // },
   },
   test: {
     '/api/': {

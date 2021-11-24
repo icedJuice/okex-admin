@@ -4,19 +4,11 @@ import { Form, Input, Button, message, Spin } from 'antd';
 import ImageUpload from '@/components/ImageUpload';
 import { connect } from 'react-redux';
 
-function UpdateCast({
-  data,
-  location,
-  getTokenById,
-  createOrUpdateToken,
-  getLoading,
-  updateLoading,
-}) {
+function UpdateCast({ location, getTokenById, createOrUpdateToken, getLoading, updateLoading }) {
   const tokenId = location.query.tokenId;
   const [form] = Form.useForm();
 
   const onFinish = async (formData) => {
-    console.log('formData', formData);
     const updateParams = pickBy(formData, (e) => e !== undefined);
     const isNew = !updateParams.id;
     const keyLength = Object.keys(updateParams).length;

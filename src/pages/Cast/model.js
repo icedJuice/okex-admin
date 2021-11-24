@@ -97,51 +97,58 @@ const CastModel = {
     },
 
     *createOrUpdateToken({ payload }, { call, select }) {
-      const editingToken = yield select((state) => state.cast.editingToken || {});
-      const isUpdate = Boolean(payload.id);
-      const {
-        name = '',
-        description = '',
-        author = '',
-        collectionName = '',
-        edition = '',
-        rareLevel = '',
-        tokenId = '',
-        coverInfo,
-        videoInfo,
-      } = payload;
+      try {
+        const editingToken = yield select((state) => state.cast.editingToken || {});
+        const isUpdate = Boolean(payload.id);
+        const {
+          name = '',
+          description = '',
+          author = '',
+          collectionName = '',
+          edition = '',
+          rareLevel = '',
+          tokenId = '',
+          coverInfo,
+          videoInfo,
+        } = payload;
 
-      const params = {
-        name,
-        description,
-        author,
-        collectionName,
-        edition,
-        rareLevel,
-        tokenId,
-      };
+        const params = {
+          name,
+          description,
+          author,
+          collectionName,
+          edition,
+          rareLevel,
+          tokenId,
+          coverId: coverInfo?.id || '',
+          videoId: videoInfo?.id || '',
+        };
 
-      if (!isUpdate) {
-        params.coverId = coverInfo?.id || '';
-        params.videoId = videoInfo?.id || '';
-      }
+        const response = yield call(isUpdate ? UpdateCast : createCast, params);
+        const res = response?.data;
+        const currentId = editingToken.id || res?.id;
 
-      const response = yield call(isUpdate ? UpdateCast : createCast, params);
-      const res = response.data;
-      const currentId = editingToken.id || res?.id;
-
-      if (isUpdate) {
-        // 如果封面有更新，调用接口更新
-        if (coverInfo.id !== editingToken.coverId) {
-          yield call(setCastCover, { id: currentId, coverId: coverInfo.id });
+        if (isUpdate) {
+          // 如果封面有更新，调用接口更新
+          if (coverInfo.id !== editingToken.coverId) {
+            yield call(setCastCover, { id: currentId, coverId: coverInfo.id });
+          }
+          // 如果视频有变更， 调用接口更新
+          if (videoInfo.id !== editingToken.videoId) {
+            yield call(setCastVideo, { id: currentId, coverId: videoInfo.id });
+          }
         }
-        // 如果视频有变更， 调用接口更新
-        if (videoInfo.id !== editingToken.videoId) {
-          yield call(setCastVideo, { id: currentId, coverId: videoInfo.id });
-        }
+        yield put({
+          type: 'updateState',
+          payload: {
+            editingToken: { ...editingToken, ...params },
+          },
+        });
+        return { data: res };
+      } catch (error) {
+        console.error(error);
+        return { error };
       }
-
-      return {};
     },
   },
 };

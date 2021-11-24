@@ -27,7 +27,6 @@ const userInfo = {
 };
 
 export async function currentUser(options) {
-  console.log('/api/currentUser', options);
   return new Promise((resolve, reject) => {
     const token = getUserToken();
     if (!token) {

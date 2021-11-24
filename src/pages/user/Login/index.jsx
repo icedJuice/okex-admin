@@ -62,7 +62,6 @@ const Login = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <LoginForm
-          logo={''}
           title="OKEX 后台管理系统"
           subTitle={'铸造后台'}
           initialValues={{

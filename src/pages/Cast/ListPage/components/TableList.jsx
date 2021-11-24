@@ -83,6 +83,7 @@ function TableList({ data, loading, onPageChange }) {
   return (
     <Spin spinning={loading}>
       <Table
+        scroll={{ x: 1100 }}
         columns={columns}
         dataSource={list || []}
         pagination={pagination}

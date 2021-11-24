@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'umi';
 import { Form, Input, Button, Space, Select } from 'antd';
 
 function SearchFrom({ onFinish, onCreate }) {
@@ -21,9 +21,11 @@ function SearchFrom({ onFinish, onCreate }) {
             <Button type="primary" htmlType="submit">
               搜索
             </Button>
-            <Button type="primary" onClick={onCreate}>
-              新增
-            </Button>
+            <Link to="/cast/update">
+              <Button type="primary" onClick={onCreate}>
+                新增
+              </Button>
+            </Link>
           </Space>
         </Form.Item>
       </Form>

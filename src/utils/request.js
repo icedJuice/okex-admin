@@ -3,7 +3,8 @@ import { request } from 'umi';
 import { getUserToken, setUserToken, removeUserToken } from '@/utils/auth';
 
 const CODE_SUCCESS = 0;
-const BASE_API_PATH = '/api/v1';
+const host = process.env.NODE_ENV === 'development' ? '' : 'https://www.rarelab.space';
+const BASE_API_PATH = host + '/api/v1';
 const defaultErrorMessage = '未知错误，请稍后再试';
 
 const errorMsgMap = {

@@ -8,7 +8,6 @@ const Settings = {
   colorWeak: false,
   title: 'Okex',
   pwa: false,
-  logo: 'logo',
   iconfontUrl: '',
 };
 export default Settings;
